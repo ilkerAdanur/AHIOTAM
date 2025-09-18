@@ -1,0 +1,19 @@
+﻿@*_DefaultSectionAboutComponentPartial*@
+<section class="site-section" id="section-about">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 site-animate mb-5">
+                <h4 class="site-sub-title">Hikayemiz</h4>
+                <h2 class="site-primary-title display-4">@ViewBag.title</h2>
+                @* <p>ViewBag.description</p> *@
+
+                <p class="mb-4"> @ViewBag.description</p>
+                @* <p><a href="#" class="btn btn-secondary btn-lg">Hakkımızda Daha Fazlasını Öğrenin</a></p> *@
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-6 site-animate img" data-animate-effect="fadeInRight">
+                <img src="@ViewBag.aboutImageUrl" alt="Free Template by ahiotam.com" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>

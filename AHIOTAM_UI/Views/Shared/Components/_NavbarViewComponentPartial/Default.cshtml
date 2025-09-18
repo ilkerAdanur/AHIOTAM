@@ -1,0 +1,22 @@
+﻿@* _NavbarViewComponentPartial *@
+<nav class="navbar navbar-expand-lg navbar-dark site_navbar bg-dark site-navbar-light" id="site-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="index.html"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site-nav" aria-controls="site-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+
+        <div class="collapse navbar-collapse" id="site-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a asp-controller="Default" asp-action="Index" class="nav-link">Ana Sayfa</a></li>
+                <li class="nav-item"><a asp-controller="Default" asp-action="Index" asp-fragment="section-about" class="nav-link">Hakkımda</a></li>
+                <li class="nav-item"><a asp-controller="Default" asp-action="Index" asp-fragment="section-offer" class="nav-link">Özel Menülerimiz</a></li>
+                <li class="nav-item"><a asp-controller="Default" asp-action="Index" asp-fragment="section-menu" class="nav-link">Menü</a></li>
+                <li class="nav-item"><a asp-controller="Default" asp-action="Index" asp-fragment="section-news" class="nav-link">Yeni Eklenenler</a></li>
+                <li class="nav-item"><a asp-controller="Default" asp-action="Index" asp-fragment="section-gallery" class="nav-link">Galeri</a></li>
+                <li class="nav-item"><a asp-controller="Default" asp-action="Index" asp-fragment="section-contact" class="nav-link">İletişim</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+

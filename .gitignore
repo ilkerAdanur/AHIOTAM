@@ -1,0 +1,82 @@
+# .NET
+## Ignore build results ##
+bin/
+obj/
+
+# .NET Core
+.vs/
+.vscode/
+.idea/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+appsettings.json
+
+# Rider IDE files
+.idea/
+
+# .NET runtime config file for debugging purposes
+project.lock.json
+project.fragment.lock.json
+
+# VS for Mac files
+.vscode/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# JetBrains Rider files
+.idea/
+
+# Ignore logs
+*.log
+
+# ASP.NET Temporary files
+temp/
+uploads/
+
+# Microsoft Azure CLI
+.azurerm/
+
+# JetBrains Rider
+.idea/
+
+# SQL Server files
+*.mdf
+*.ldf
+
+# Tye / .NET Core dev services files
+.tye/
+
+# Ignore npm/yarn dependencies for SPA in a .NET app (if you're using React, Angular, etc.)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore package-lock.json if not using npm for frontend dependencies
+package-lock.json
+
+# Ignore .env files
+.env
+.env.*
+
+# Ignore coverage files
+coverage/
+
+# Ignore any build artifacts or generated files from testing frameworks
+test-results/
+
+# Dapper related temporary files (optional, but good practice)
+*.db
+
+# Ignore custom directories for build artifacts or generated files
+GeneratedFiles/
