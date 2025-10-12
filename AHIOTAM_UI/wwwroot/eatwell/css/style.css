@@ -17,9 +17,126 @@ a {
   color: #FDA403;
 }
 
+/*//////////////////////////////////7*/
+/*gemini1*/
+/* =================================================================
+   "En Son Eklenenler" Bölümü Ýçin Düzeltilmiþ Kart Stilleri
+   ================================================================= */
+
+/* Ana Kart Kapsayýcýsý */
+.hover-card {
+    position: relative; /* Ýçerideki absolute konumlandýrýlmýþ öðeler için referans noktasý */
+    width: 100%;
+    max-width: 350px; /* Kartýn maksimum geniþliði, isteðe baðlý */
+    height: 350px; /* Animasyon için sabit yükseklik önemlidir */
+    background-color: #fff;
+    border-radius: 10px; /* Köþeleri yuvarlatma */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    overflow: hidden; /* EN ÖNEMLÝSÝ: Kart dýþýna taþan içeriði gizler */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .hover-card:hover {
+        transform: translateY(-5px); /* Fare üzerine gelince kartý hafifçe yukarý kaldýrýr */
+        box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+
+    /* Slayt 1: Resim Katmaný */
+    .hover-card .slide1 {
+        width: 100%;
+        height: 100%;
+    }
+
+/* Resmin kendisi için stil */
+.card-image-content {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Resmin oranýný bozmadan alaný kaplamasýný saðlar */
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+/* Fare üzerine gelince resme hafif zoom efekti */
+.hover-card:hover .card-image-content {
+    transform: scale(1.1);
+}
+
+/* Slayt 2: Yukarý Kayan Ýçerik Katmaný */
+.hover-card .slide2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95); /* Hafif þeffaf beyaz arka plan */
+    backdrop-filter: blur(4px); /* Arka planý bulanýklaþtýrma efekti (tarayýcý desteðine baðlý) */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Ýçeriði dikeyde ortalar */
+    align-items: center; /* Ýçeriði yatayda ortalar */
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    /* ANAHTAR NOKTA: Baþlangýçta 100% aþaðýda, yani görünmez konumda */
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Yumuþak animasyon geçiþi */
+}
+
+/* Kartýn üzerine gelindiðinde, slide2'yi görünür alana (yukarý) kaydýrýr */
+.hover-card:hover .slide2 {
+    transform: translateY(0);
+}
+
+/* slide2 içindeki metin stilleri */
+.hover-card .slide2 .content h3 {
+    margin: 0 0 10px 0;
+    font-size: 22px;
+    color: #2c3e50;
+}
+
+.hover-card .slide2 .content p {
+    margin: 0 0 15px 0;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Mobil cihazlar için uyumluluk */
+@media (max-width: 767.98px) {
+    .hover-card {
+        height: 320px;
+        margin-bottom: 30px !important; /* Kartlar arasýna boþluk ekler */
+    }
+}
+
+
+
+
+/*/////////////////////////7*/
+
+
+
+/*gemini1*/
 a:hover {
   text-decoration: none;
   color: #FDA403;
+}
+
+/* Galerideki resimlerin boyutunu sabitlemek için özel stil */
+.gallery-fixed-image {
+    width: 100%; /* Kapsayýcý geniþliðine uyum saðlar */
+    height: 300px; /* Sabit bir yükseklik belirler */
+    object-fit: cover; /* Resmi, en boy oranýný koruyarak kutuyu kaplayacak þekilde ölçekler */
+}
+
+.fixed-image {
+    width: 100%;
+    max-width: 300px; /* Maksimum geniþlik */
+    height: 200px; /* Sabit yükseklik */
+    object-fit: cover; /* Oraný koruyarak kýrpma */
+    border-radius: 10px; /* Opsiyonel: köþe yuvarlama */
 }
 
 h1, h2, h3, h4, h5,

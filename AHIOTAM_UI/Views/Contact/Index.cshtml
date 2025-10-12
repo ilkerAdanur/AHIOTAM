@@ -1,0 +1,81 @@
+﻿@model List<ResultContactDto>
+
+@{
+    ViewData["Title"] = "İletişim";
+    Layout = "~/Views/Admin/Index.cshtml";
+}
+
+<div class="fixed bottom-6 right-6 z-50">
+    <a href="/Contact/CreateContact"
+       class="px-4 py-3 rounded-full shadow-lg bg-gradient-to-r from-emerald-500 to-teal-400 text-white font-semibold text-sm hover:opacity-90 transition duration-300">
+        Yeni İletişim Bilgisi Ekle
+    </a>
+</div>
+
+<div class="flex flex-wrap -mx-3 container mx-auto px-4 ml-10">
+    <div class="flex-none w-full max-w-full px-3">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 shadow-xl rounded-2xl">
+            <div class="p-6 pb-0 mb-0">
+                <h6 class="text-lg font-semibold text-slate-700">İletişim Bilgileri</h6>
+            </div>
+            <div class="flex-auto px-4 pt-4 pb-2">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-slate-600">
+                        <thead class="text-xs text-slate-400 uppercase bg-slate-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Resim</th>
+                                <th scope="col" class="px-6 py-3">Başlık</th>
+                                <th scope="col" class="px-6 py-3">Adres</th>
+                                <th scope="col" class="px-6 py-3">İletişim</th>
+                                <th scope="col" class="px-6 py-3 text-center">Durum</th>
+                                <th scope="col" class="px-6 py-3 text-center">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="bg-white border-b hover:bg-slate-50">
+                                    <td class="px-6 py-4">
+                                        <img src="@item.ImageUrl" alt="Contact Resmi" class="rounded-lg" style="width: 80px; height: 80px; object-fit: cover;" />
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="font-medium text-slate-700">@item.Title</div>
+                                        <div class="text-slate-500 text-xs">@item.Description</div>
+                                    </td>
+                                    <td class="px-6 py-4 text-xs text-slate-600">
+                                        @item.Address1 <br />
+                                        @item.Address2
+                                    </td>
+                                    <td class="px-6 py-4 text-xs text-slate-600">
+                                        📞 @item.PhoneNumber <br />
+                                        ✉️ @item.Email
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        @if (item.IsActive)
+                                        {
+                                            <span class="inline-block bg-green-200 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">
+                                                Aktif
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <form method="post" asp-action="SetActiveContact" asp-route-id="@item.ContactId">
+                                                <button type="submit" class="bg-gray-200 hover:bg-gray-300 text-xs text-slate-700 font-semibold px-3 py-1 rounded-full">
+                                                    Aktif Yap
+                                                </button>
+                                            </form>
+                                        }
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <a href="/Contact/UpdateContact/@item.ContactId" class="text-blue-600 hover:underline text-xs mr-2">Düzenle</a>
+                                        <a href="/Contact/DeleteContact/@item.ContactId" class="text-red-600 hover:underline text-xs">Sil</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

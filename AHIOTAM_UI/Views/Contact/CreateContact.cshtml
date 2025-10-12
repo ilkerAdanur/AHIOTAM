@@ -1,0 +1,83 @@
+﻿@model CreateContactDto
+
+@{
+    ViewData["Title"] = "CreateContact";
+    Layout = "~/Views/Admin/Index.cshtml";
+}
+
+<div class="container mx-auto px-4 mt-10">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold text-slate-700">Yeni İletişim Bilgisi Ekle</h2>
+        <a href="/Contact/Index"
+           class="text-sm text-slate-500 hover:text-slate-700 transition">
+            ← Geri Dön
+        </a>
+    </div>
+
+    <div class="bg-white shadow-xl rounded-2xl p-8 border border-slate-100">
+        <form asp-action="CreateContact" method="post">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Başlık -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Başlık</label>
+                    <input asp-for="Title" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none" placeholder="Örnek: Şube 1" />
+                    <span asp-validation-for="Title" class="text-red-500 text-xs"></span>
+                </div>
+
+                <!-- Açıklama -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Açıklama</label>
+                    <input asp-for="Description" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none" placeholder="Örnek: Ana Şube" />
+                    <span asp-validation-for="Description" class="text-red-500 text-xs"></span>
+                </div>
+
+                <!-- Adres 1 -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Adres 1</label>
+                    <input asp-for="Address1" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none" placeholder="Cadde, Sokak, No" />
+                    <span asp-validation-for="Address1" class="text-red-500 text-xs"></span>
+                </div>
+
+                <!-- Adres 2 -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Adres 2</label>
+                    <input asp-for="Address2" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none" placeholder="İlçe, İl" />
+                    <span asp-validation-for="Address2" class="text-red-500 text-xs"></span>
+                </div>
+
+                <!-- Telefon -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Telefon</label>
+                    <input asp-for="PhoneNumber" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none" placeholder="Örnek: +90 555 123 4567" />
+                    <span asp-validation-for="PhoneNumber" class="text-red-500 text-xs"></span>
+                </div>
+
+                <!-- E-posta -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">E-posta</label>
+                    <input asp-for="Email" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none" placeholder="ornek@mail.com" />
+                    <span asp-validation-for="Email" class="text-red-500 text-xs"></span>
+                </div>
+
+                <!-- Resim URL -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Resim URL</label>
+                    <input asp-for="ImageUrl" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none" placeholder="https://..." />
+                    <span asp-validation-for="ImageUrl" class="text-red-500 text-xs"></span>
+                </div>
+
+            </div>
+
+            <!-- Gönder Butonu -->
+            <div class="mt-8 flex justify-end">
+                <button type="submit"
+                        class="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-400 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                    Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

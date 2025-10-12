@@ -1,30 +1,127 @@
 ﻿@*_DefaultSectionNewsComponentPartial*@
 
+
+@* default.cshtml için Nihai ve Doğru HTML Yapısı *@
+
+@model List<ResultLast3MenuWithCategoryDto>
+
 <section class="site-section bg-light" id="section-news">
     <div class="container">
-
-        <div class="row">
-            <div class="col-md-12 text-center mb-5 site-animate">
-                <h2 class="display-4">News</h2>
+        <div class="row text-center mb-5">
+            <div class="col-md-12">
+                <h2 class="display-4">En Son Eklenenler</h2>
                 <div class="row justify-content-center">
                     <div class="col-md-7">
-                        <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                        <p class="lead">Yeni Ürünlerimizi Hemen Deneyin</p>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="media d-block mb-4 text-center site-media site-animate">
-                    <img src="/eatwell/images/offer_1.jpg" alt="Free Template by colorlib.com" class="img-fluid">
-                    <div class="media-body p-md-5 p-4">
-                        <h5 class="mt-0 h4">We Have Dilecious Food</h5>
-                        <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+        @* .cshtml için Butonu Sabitlenmiş Nihai HTML Yapısı *@
 
-                        <p class="mb-0"><a href="#" class="btn btn-primary btn-sm">Read More</a></p>
+        <div class="row justify-content-center">
+            @foreach (var item in Model)
+            {
+                @if(item.MenuStatus == false)
+                {
+                    continue; 
+                }
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="animated-card">
+                        <div class="card-image-container">
+                            <img src="@item.FoodImageUrl" alt="@item.FoodTitle">
+                        </div>
+
+                        <div class="card-info-container">
+                            <h3>@item.FoodTitle</h3>
+                            <p>@item.FoodDescription</p>
+                            @* BUTON ARTIK BURADA DEĞİL *@
+                        </div>
+
+                        @* BUTONU DIŞARI, ANA KAPSAYICININ İÇİNE TAŞIDIK *@
+                        <a href="#" class="btn btn-primary card-action-button">Daha Fazlasını Gör</a>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
+            }
+        </div>
+    </div>
+</section>
+<style>
+    .animated-card {
+        position: relative;
+        width: 300px;
+        /* Butona yer açmak için toplam yüksekliği artırdık */
+        height: 350px;
+        margin: 0 auto;
+    }
+
+        .animated-card .card-image-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 220px;
+            background: #fff;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 2; /* Metin katmanının üstünde */
+        }
+
+        .animated-card:hover .card-image-container {
+            transform: translateY(-120px);
+        }
+
+        .animated-card .card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .animated-card .card-info-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 220px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            padding-top: 100px;
+            box-sizing: border-box;
+            text-align: center;
+            z-index: 1; /* Resim katmanının altında */
+        }
+
+            .animated-card .card-info-container h3 {
+                color: #333;
+                margin-bottom: 10px;
+                font-family: "Playfair Display", serif;
+            }
+
+            .animated-card .card-info-container p {
+                color: #666;
+                font-size: 14px;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+        /* YENİ EKLENEN BUTON STİLİ */
+        .animated-card .card-action-button {
+            position: absolute;
+            bottom: -75px; /* Alttan 20px boşluk */
+            left: 50%;
+            transform: translateX(-50%); /* Yatayda tam ortalamak için */
+            z-index: 3; /* Hem resmin hem metnin üzerinde, en üstte görünmesi için */
+            width: 80%; /* Buton genişliği */
+            text-align: center;
+        }
+</style>
+@*             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="media d-block mb-4 text-center site-media site-animate">
                     <img src="/eatwell/images/offer_2.jpg" alt="Free Template by colorlib.com" class="img-fluid">
                     <div class="media-body p-md-5 p-4">
@@ -35,6 +132,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="media d-block mb-4 text-center site-media site-animate">
                     <img src="/eatwell/images/offer_3.jpg" alt="Free Template by colorlib.com" class="img-fluid">
@@ -45,7 +143,4 @@
                         <p class="mb-0"><a href="#" class="btn btn-primary btn-sm">Read More</a></p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
+            </div> *@

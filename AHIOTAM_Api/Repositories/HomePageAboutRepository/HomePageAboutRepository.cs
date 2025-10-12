@@ -47,21 +47,21 @@ namespace AHIOTAM_Api.Repositories.HomePageAboutRepository
             }
         }
 
-        public async Task<ResultHomePageAboutDto> GetByIdAsync(int id)
+        public async Task<GetByIdHomePageAboutDto> GetAboutByIdAsync(int id)
         {
             string query = "Select * from HomePageAbout where AboutId = @aboutId";
             var parameters = new DynamicParameters();
             parameters.Add("@aboutId", id);
             using (var connection = _context.CreateConnection())
             {
-                var values = await connection.QueryFirstOrDefaultAsync<ResultHomePageAboutDto>(query, parameters);
+                var values = await connection.QueryFirstOrDefaultAsync<GetByIdHomePageAboutDto>(query, parameters);
                 return values;
             }
         }
 
         public async Task UpdateAboutAsync(UpdateHomePageAboutDto updateAboutDto)
         {
-            string query = "Update HomePageAbout set Title = @title, Description = @description,AboutImageUrl = @aboutImageUrl where AboutId = @AboutId";
+            string query = "Update HomePageAbout set Title = @title, Description = @description,AboutImageUrl = @aboutImageUrl where AboutId = @aboutId";
             var parameters = new DynamicParameters();
             parameters.Add("@title", updateAboutDto.Title);
             parameters.Add("@description", updateAboutDto.Description);

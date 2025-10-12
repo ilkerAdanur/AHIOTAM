@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace AHIOTAM_UI.ViewComponents.HomePage
 {
-    public class _DefaultSectionAboutComponentPartial :ViewComponent
+    public class _DefaultSectionAboutComponentPartial : ViewComponent
     {
         private readonly IHttpClientFactory _httpClientFactory;
 

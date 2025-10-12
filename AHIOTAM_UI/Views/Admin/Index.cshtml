@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+@await Component.InvokeAsync("_AdminLayoutHeadComponentPartial")
+
+<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
+
+    @await Component.InvokeAsync("_AdminSideBarViewComponentPartial")
+
+    <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
+        @await Component.InvokeAsync("_AdminNavbarViewComponentPartial")
+
+        <div class="w-full px-6 py-6 mx-auto flex-grow">
+            @RenderBody()
+        </div>
+
+        @await Component.InvokeAsync("_AdminFooterViewComponentPartial")
+
+    </main>
+
+    @await Component.InvokeAsync("_AdminFixedButtonViewComponentPartial")
+
+    @* SCRIPT'LERİN OLMASI GEREKEN DOĞRU YER *@
+    @await Component.InvokeAsync("_AdminScriptViewComponentPartial")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

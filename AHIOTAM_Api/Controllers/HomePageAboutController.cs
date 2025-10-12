@@ -21,16 +21,16 @@ namespace AHIOTAM_Api.Controllers
             return Ok(values);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync(int id)
+        public async Task<IActionResult> GetAboutByIdAsync(int id)
         {
-            var values = await _homePageAboutRepository.GetByIdAsync(id);
+            var values = await _homePageAboutRepository.GetAboutByIdAsync(id);
             return Ok(values);
         }
         [HttpPost]
         public async Task<IActionResult> CreateAboutAsync(CreateHomePageAboutDto createAboutDto)
         {
             await _homePageAboutRepository.CreateAboutAsync(createAboutDto);
-            return Ok("Hakkımız kısmı başarılı şekilde yüklendi : " + createAboutDto.ToString());
+            return Ok();
         }
         [HttpPut]
         public async Task<IActionResult> UpdateAboutAsync(UpdateHomePageAboutDto updateAboutDto)

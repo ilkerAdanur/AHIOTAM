@@ -1,0 +1,187 @@
+﻿<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+
+<style>
+    /* Navbar'ın arkaplan rengini sabit ve koyu yapar */
+
+
+    /* Bildirim Çanı */
+    .notification-bell {
+        position: relative;
+        font-size: 1.2rem;
+    }
+
+    /* Bildirim Sayacı (Badge) */
+    #notification-badge {
+        position: absolute;
+        top: -4px;
+        right: -6px;
+        font-size: 0.6rem;
+        display: none; /* JS ile görünür yapılacak */
+        animation: pulse 1s infinite;
+    }
+
+    /* Bildirim Sayacı Animasyonu */
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.3);
+            opacity: 0.6;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Bildirim Listesi */
+    #notification-list {
+        max-height: 300px;
+        overflow-y: auto;
+        width: 280px; /* Biraz daha geniş */
+    }
+
+    /* Profil Alanı */
+    .profile-avatar {
+        width: 30px; /* Biraz daha büyük */
+        height: 30px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-left: 8px;
+    }
+
+    .profile-links a {
+        color: white;
+        margin-left: 15px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: opacity 0.2s;
+    }
+
+        .profile-links a:hover {
+            opacity: 0.8;
+        }
+
+    /* Mobil menü ikonunu gizlemek için (varsa) */
+    .navbar-toggler {
+        border: none;
+        color: white !important;
+    }
+</style>
+
+
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                <li class="breadcrumb-item text-sm"><a class="opacity-50 text-white" href="javascript:;">Sayfalar</a></li>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">@ViewData["Title"]</li>
+            </ol>
+            <h6 class="font-weight-bolder mb-0 text-white">@ViewData["Title"]</h6>
+        </nav>
+
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <ul class="navbar-nav ms-auto justify-content-end align-items-center">
+
+                <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                    <a href="#" class="nav-link text-white position-relative" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-bell notification-bell"></i>
+                        <span id="notification-badge" class="badge rounded-pill bg-danger border border-white small"></span>
+                    </a>
+                    <ul id="notification-list" class="dropdown-menu dropdown-menu-end shadow-lg p-2" aria-labelledby="dropdownMenuButton">
+                        <li id="notification-placeholder"><a class="dropdown-item text-center">Yükleniyor...</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item d-flex align-items-center">
+                    <div class="profile-links d-flex align-items-center">
+                        <a href="#">Profil</a>
+                        <a href="#">Ayarlar</a>
+                        <a href="#">Çıkış</a>
+                        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="profile-avatar" alt="Profil" />
+                    </div>
+                </li>
+
+                <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                        <div class="sidenav-toggler-inner">
+                            <i class="sidenav-toggler-line bg-white"></i>
+                            <i class="sidenav-toggler-line bg-white"></i>
+                            <i class="sidenav-toggler-line bg-white"></i>
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/argon/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="~/argon/assets/js/argon-dashboard-tailwind.js?v=1.0.1"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // --- Bildirimleri Yükleme Fonksiyonu ---
+        async function loadNotifications() {
+            const notificationList = document.getElementById('notification-list');
+            const notificationBadge = document.getElementById('notification-badge');
+
+            // Geçici veriler
+            const notifications = [
+                { title: 'Yeni Mesajınız Var', timeAgo: '3 dk önce' },
+                { title: 'Haftalık Rapor Hazır', timeAgo: '10 dk önce' },
+                { title: 'Sistem Güncellemesi', timeAgo: '25 dk önce' },
+            ];
+
+            notificationList.innerHTML = ''; // Listeyi temizle
+
+            if (notifications.length > 0) {
+                notificationBadge.textContent = notifications.length;
+                notificationBadge.style.display = 'block';
+
+                notifications.forEach(n => {
+                    const item = `
+                        <li class="mb-1">
+                            <a class="dropdown-item d-flex align-items-start gap-2 border-radius-md" href="#">
+                                <i class="fa-solid fa-circle text-primary mt-1" style="font-size:8px;"></i>
+                                <div>
+                                    <div class="fw-semibold text-dark">${n.title}</div>
+                                    <small class="text-secondary"><i class="fa-regular fa-clock me-1"></i>${n.timeAgo}</small>
+                                </div>
+                            </a>
+                        </li>`;
+                    notificationList.insertAdjacentHTML('beforeend', item);
+                    });
+            } else {
+                notificationBadge.style.display = 'none';
+                notificationList.innerHTML = '<li><a class="dropdown-item text-center text-muted">Yeni bildirim yok</a></li>';
+            }
+        }
+
+        // loadNotifications();
+        // setInterval(loadNotifications, 60000); // 60 saniyede bir yenilemek isterseniz aktif edin.
+
+
+        // --- Argon Sidebar Tetikleyicisini Bootstrap Mobil İkonuna Bağlama ---
+        // Bu kod, Bootstrap navbar'ın mobil ikonuna tıklandığında Argon sidebar'ını açar.
+        const argonSidebarToggler = document.querySelector('[sidenav-trigger]');
+        const bootstrapMobileToggler = document.getElementById('iconNavbarSidenav');
+
+        if (bootstrapMobileToggler && argonSidebarToggler) {
+            bootstrapMobileToggler.addEventListener('click', function() {
+                argonSidebarToggler.click(); // Orijinal Argon butonunun tıklama olayını taklit et
+            });
+        }
+    });
+</script>
