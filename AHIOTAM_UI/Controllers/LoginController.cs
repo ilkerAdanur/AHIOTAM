@@ -25,12 +25,12 @@ namespace AHIOTAM_UI.Controllers
         public async Task<IActionResult> Index(CreateLoginDto createLoginDto)
         {
             var client = _httpClientFactory.CreateClient();
-            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(createLoginDto), System.Text.Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(createLoginDto), System.Text.Encoding.UTF8, "application/json");
             var response = await client.PostAsync("https://localhost:44390/api/Login", content);
             if (response.IsSuccessStatusCode)
             {
                 var jsponData = await response.Content.ReadAsStringAsync();
-                var tokenModel = System.Text.Json.JsonSerializer.Deserialize<JwtResponseModel>(jsponData, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                var tokenModel = JsonSerializer.Deserialize<JwtResponseModel>(jsponData, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
                 if(tokenModel != null)
                 {
                     JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();

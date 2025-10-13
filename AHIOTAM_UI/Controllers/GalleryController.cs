@@ -1,4 +1,5 @@
 ﻿using AHIOTAM_UI.Dtos.HomePageGalleryDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using System.Text;
 
 namespace AHIOTAM_UI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class GalleryController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;

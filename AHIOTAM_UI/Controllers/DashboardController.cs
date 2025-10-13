@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace AHIOTAM_UI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DashboardController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;

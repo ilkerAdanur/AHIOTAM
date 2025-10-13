@@ -1,5 +1,6 @@
 ﻿using AHIOTAM_UI.Dtos.CategoryDto;
 using AHIOTAM_UI.Dtos.MenuDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -7,6 +8,7 @@ using System.Text;
 
 namespace AHIOTAM_UI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MenuController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;

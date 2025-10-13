@@ -1,10 +1,12 @@
 ﻿using AHIOTAM_UI.Dtos.CategoryDto;
 using AHIOTAM_UI.Dtos.GalleryDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AHIOTAM_UI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;

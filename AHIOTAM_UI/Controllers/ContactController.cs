@@ -1,10 +1,12 @@
 ﻿using AHIOTAM_UI.Dtos.ContactDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace AHIOTAM_UI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ContactController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
