@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AHIOTAM_UI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class ContactController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;

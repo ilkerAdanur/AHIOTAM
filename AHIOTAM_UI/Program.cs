@@ -1,6 +1,9 @@
+using AHIOTAM_UI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 
 
 builder.Services.AddHttpClient();
@@ -16,9 +19,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         opt.Cookie.Name = "ahiotamtoken";
     });
 
+
+
 builder.Services.AddHttpClient();
 
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

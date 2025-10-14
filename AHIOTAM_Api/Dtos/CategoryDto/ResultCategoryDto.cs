@@ -7,5 +7,6 @@
         public string CategoryElementId { get; set; }
         public bool CategoryStatus { get; set; }
         public DateTime CategoryCreatedAt { get; set; }
+        public int CategoryCreatedId { get; set; }
     }
 }

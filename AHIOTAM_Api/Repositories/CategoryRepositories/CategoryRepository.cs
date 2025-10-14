@@ -43,13 +43,14 @@ namespace AHIOTAM_Api.Repositories.CategoryRepositories
         public async Task CreateCategory(CreateCategoryDto createCategoryDto)
         {
             var elementId = GenerateCategoryElementId(createCategoryDto.CategoryName);
-            string query = "INSERT INTO Category (CategoryName, CategoryStatus,CategoryElementId,CategoryCreatedAt) VALUES (@categoryName, @categoryStatus,@categoryElementId,@categoryCreatedAt)";
+            string query = "INSERT INTO Category (CategoryName, CategoryStatus,CategoryElementId,CategoryCreatedAt,CategoryCreatedId) VALUES (@categoryName, @categoryStatus,@categoryElementId,@categoryCreatedAt,@categoryCreatedId)";
             var parameters = new DynamicParameters();
 
             parameters.Add("@categoryName", createCategoryDto.CategoryName);
             parameters.Add("@categoryStatus", true);
             parameters.Add("@categoryElementId", elementId);
             parameters.Add("@categoryCreatedAt", DateTime.UtcNow);
+            parameters.Add("@categoryCreatedId", createCategoryDto.CategoryCreatedId);
             using (var connection = _context.CreateConnection())
             {
                 await connection.ExecuteAsync(query, parameters);
@@ -75,6 +76,7 @@ namespace AHIOTAM_Api.Repositories.CategoryRepositories
             parameters.Add("@categoryName", updateCategoryDto.CategoryName);
             parameters.Add("@categoryStatus", updateCategoryDto.CategoryStatus);
             parameters.Add("@categoryId", updateCategoryDto.CategoryId);
+            parameters.Add("@categoryCreatedId", updateCategoryDto.CategoryCreatedId);
             parameters.Add("@categoryElementId", elementId);
             using (var connection = _context.CreateConnection())
             {

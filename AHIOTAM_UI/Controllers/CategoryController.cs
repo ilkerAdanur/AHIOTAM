@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace AHIOTAM_UI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;

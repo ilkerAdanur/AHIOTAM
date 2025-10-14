@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AHIOTAM_UI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class MenuController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
