@@ -1,0 +1,144 @@
+﻿@* _MenuDetailInCardComponentPartial *@
+
+<div class="modal fade" id="menuDetailModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-to-r from-blue-500 to-teal-400">
+                <h4 class="modal-title text-white" id="modalTitle">
+                    <i class="fas fa-utensils me-2"></i>Menü Detayları
+                </h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="card border-0 shadow-sm p-4">
+                    <div class="text-center mb-4">
+                        <img src="@ViewBag.foodImageUrl" alt="@ViewBag.foodTitle" class="img-fluid rounded shadow" style="max-height:220px; object-fit:cover;" />
+                    </div>
+                    <div class="text-center mb-3">
+                        <h3 class="fw-bold mb-1">@ViewBag.foodTitle</h3>
+                        <div class="mb-2 text-muted">@ViewBag.foodDescription</div>
+                        <div class="fs-4 fw-bold text-success">@((ViewBag.foodPrice != null) ? ((decimal)ViewBag.foodPrice).ToString("C") : "")</div>
+                    </div>
+                    <div class="row g-4 mt-2">
+                        <!-- Hazırlanma Süresi -->
+                        <div class="col-md-6">
+                            <div class="detail-card bg-light rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-clock text-primary me-2"></i>
+                                    <h6 class="mb-0">Hazırlanma Süresi</h6>
+                                </div>
+                                <p class="mb-0 fs-5">
+                                    @if (ViewBag.preparationTime != null && ViewBag.preparationTime > 0)
+                                    {
+                                        <span class="text-primary">@ViewBag.preparationTime</span>
+                                        <span class="text-muted ms-1">dakika</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Belirtilmemiş</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Kalori -->
+                        <div class="col-md-6">
+                            <div class="detail-card bg-light rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-fire-alt text-danger me-2"></i>
+                                    <h6 class="mb-0">Kalori</h6>
+                                </div>
+                                <p class="mb-0 fs-5">
+                                    @if (ViewBag.calories != null && ViewBag.calories > 0)
+                                    {
+                                        <span class="text-danger">@ViewBag.calories</span>
+                                        <span class="text-muted ms-1">kcal</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Belirtilmemiş</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Acı Durumu -->
+                        <div class="col-md-6">
+                            <div class="detail-card bg-light rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-pepper-hot text-warning me-2"></i>
+                                    <h6 class="mb-0">Acı Durumu</h6>
+                                </div>
+                                @if (ViewBag.isSpicy == true)
+                                {
+                                    <span class="badge bg-danger px-3 py-2">
+                                        <i class="fas fa-fire me-1"></i> Acı
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success px-3 py-2">
+                                        <i class="fas fa-check me-1"></i> Acı Değil
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        <!-- Alerjen Bilgisi -->
+                        <div class="col-md-6">
+                            <div class="detail-card bg-light rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                    <h6 class="mb-0">Alerjen Bilgisi</h6>
+                                </div>
+                                <p class="mb-0">
+                                    @(ViewBag.allergenInfo ?? "Alerjen bilgisi yok.")
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Ek Notlar -->
+                        <div class="col-12">
+                            <div class="detail-card bg-light rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-clipboard-list text-info me-2"></i>
+                                    <h6 class="mb-0">Ek Notlar</h6>
+                                </div>
+                                <p class="mb-0">
+                                    @(ViewBag.additionalNotes ?? "Ek not bulunmuyor.")
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .detail-card {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+    .detail-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .modal-content {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    .modal-header {
+        border-bottom: none;
+        padding: 1.5rem;
+    }
+    .badge {
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    .text-primary { color: #5e72e4 !important; }
+    .text-danger { color: #f5365c !important; }
+    .text-warning { color: #fb6340 !important; }
+    .text-info { color: #11cdef !important; }
+    .bg-gradient-to-r {
+        background: linear-gradient(to right, #5e72e4, #2dcecc);
+    }
+</style>
