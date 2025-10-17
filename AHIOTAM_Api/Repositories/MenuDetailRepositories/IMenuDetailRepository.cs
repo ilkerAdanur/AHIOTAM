@@ -9,5 +9,7 @@ namespace AHIOTAM_Api.Repositories.MenuDetailRepositories
         Task CreateMenuDetail(CreateMenuDetailDto createMenuDetailDto);
         Task UpdateMenuDetail(UpdateMenuDetailDto updateMenuDetailrDto);
         Task DeleteMenuDetail(int id);
+        Task<ResultMenuWithDetailDto> GetMenuAndMenuDetailByMenuId(int id);
+
     }
 }

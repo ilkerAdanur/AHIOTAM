@@ -57,6 +57,20 @@ namespace AHIOTAM_Api.Repositories.MenuDetailRepositories
                 return result;
             }
         }
+
+        public async Task<ResultMenuWithDetailDto> GetMenuAndMenuDetailByMenuId(int id)
+        {
+
+            string query = @" SELECT m.MenuId, m.FoodPrice, m.FoodTitle, m.FoodDescription, m.FoodImageUrl, m.SpicealMenu, m.MenuStatus, md.PreparationTime, md.Calories, md.AllergenInfo, md.IsSpicy, md.AdditionalNotes FROM Menu AS m INNER JOIN  MenuDetail AS md ON m.MenuDetailId = md.MenuDetailId WHERE m.MenuId = @MenuId";
+            var parameters = new DynamicParameters();
+            parameters.Add("@MenuId", id);
+            using (var connection = _context.CreateConnection())
+            {
+                var values = await connection.QueryAsync<ResultMenuWithDetailDto>(query, parameters);
+                return values.FirstOrDefault();
+            }
+        }
+
         public async Task UpdateMenuDetail(UpdateMenuDetailDto updateMenuDetailDto)
         {
             string query = "UPDATE MenuDetail SET PreparationTime = @preparationTime, Calories = @calories, AllergenInfo = @allergenInfo, IsSpicy = @isSpicy, AdditionalNotes = @additionalNotes WHERE MenuDetailId = @menuDetailId";

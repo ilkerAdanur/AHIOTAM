@@ -20,7 +20,7 @@ namespace AHIOTAM_Api.Controllers
             var result = await _menuDetailRepository.GetAllMenuDetail();
             return Ok(result);
         }
-        [HttpGet("{id}")]
+        [HttpGet("GetMenuDetailById")]
         public async Task<IActionResult> GetMenuDetailById(int id)
         {
             var result = await _menuDetailRepository.GetMenuDetailById(id);
@@ -52,6 +52,16 @@ namespace AHIOTAM_Api.Controllers
         {
             await _menuDetailRepository.DeleteMenuDetail(id);
             return Ok(id);
+        }
+        [HttpGet("GetMenuAndMenuDetailByMenuId")]
+        public async Task<IActionResult> GetMenuAndMenuDetailByMenuId(int id)
+        {
+            var result = await _menuDetailRepository.GetMenuAndMenuDetailByMenuId(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
     }
 }

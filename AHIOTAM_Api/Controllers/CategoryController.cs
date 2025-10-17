@@ -51,6 +51,18 @@ namespace AHIOTAM_Api.Controllers
             await _categoryRepository.ToggleCategoryStatus(id);
             return Ok();
         }
+        [HttpGet("GetCategoiesByUserId")]
+        public async Task<IActionResult> GetCategoiesByUserId(int id)
+        {
+            var values = await _categoryRepository.GetCategoiesByUserId(id);
+            return Ok(values);
+        }
+        [HttpGet("GetCategoiesUserRole")]
+        public async Task<IActionResult> GetCategoiesUserRole()
+        {
+            var values = await _categoryRepository.GetCategoiesUserRole();
+            return Ok(values);
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AHIOTAM_UI.Dtos.CategoryDto;
 using AHIOTAM_UI.Dtos.GalleryDto;
+using AHIOTAM_UI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -9,19 +10,27 @@ namespace AHIOTAM_UI.Controllers
     [Authorize]
     public class CategoryController : Controller
     {
+        private readonly ILoginService _loginService;
         private readonly IHttpClientFactory _httpClientFactory;
-        public CategoryController(IHttpClientFactory httpClientFactory)
+        public CategoryController(IHttpClientFactory httpClientFactory, ILoginService loginService)
         {
             _httpClientFactory = httpClientFactory;
+            _loginService = loginService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
+
+
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:44390/api/Category");
+            var responseMessage = await client.GetAsync("https://localhost:44390/api/Category/GetCategoiesUserRole");
+
+
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
+                var values = JsonConvert.DeserializeObject<List<CategoryWithUsersAndRolesDto>>(jsonData);
+
+
                 return View(values);
             }
             return View();

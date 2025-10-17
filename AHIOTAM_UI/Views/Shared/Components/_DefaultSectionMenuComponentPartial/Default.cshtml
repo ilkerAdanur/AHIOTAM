@@ -1,15 +1,11 @@
 ﻿@model List<ResultMenuWithCategoryDto>
 @{
     bool isFirst = true;
-
-    // Filter and group categories that have at least one active menu item (MenuStatus == true)
     var categories = Model.Where(m => m.MenuStatus == true)
-                          .GroupBy(x => new { x.CategoryElementId, x.CategoryName, x.CategoryStatus })
-                          .Select(g => new { g.Key.CategoryElementId, g.Key.CategoryName, g.Key.CategoryStatus })
-                          .ToList();
+                         .GroupBy(x => new { x.CategoryElementId, x.CategoryName, x.CategoryStatus })
+                         .Select(g => new { g.Key.CategoryElementId, g.Key.CategoryName, g.Key.CategoryStatus })
+                         .ToList();
 }
-
-@* _DefaultSectionMenuComponentPartial *@
 
 <section class="site-section" id="section-menu">
     <div class="container">
@@ -18,25 +14,16 @@
                 <h2 class="display-4">Menümüz</h2>
                 <div class="row justify-content-center">
                     <div class="col-md-7">
-                        <p class="lead">
-                            Yöremize özgü en güzel menüler burada
-                        </p>
+                        <p class="lead">Yöremize özgü en güzel menüler burada</p>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-12 text-center">
                 <ul class="nav site-tab-nav nav-pills mb-5" id="pills-tab" role="tablist">
                     @foreach (var cat in categories.Where(c => c.CategoryStatus))
                     {
                         <li class="nav-item site-animate">
-                            <a class="nav-link @(isFirst ? "active" : "")"
-                               id="pills-@cat.CategoryElementId-tab"
-                               data-toggle="pill"
-                               href="#pills-@cat.CategoryElementId"
-                               role="tab"
-                               aria-controls="pills-@cat.CategoryElementId"
-                               aria-selected="@(isFirst ? "true" : "false")">
+                            <a class="nav-link @(isFirst ? "active" : "")" id="pills-@cat.CategoryElementId-tab" data-toggle="pill" href="#pills-@cat.CategoryElementId" role="tab" aria-controls="pills-@cat.CategoryElementId" aria-selected="@(isFirst ? "true" : "false")">
                                 @cat.CategoryName
                             </a>
                         </li>
@@ -50,20 +37,21 @@
                     }
                     @foreach (var cat in categories.Where(c => c.CategoryStatus))
                     {
-                        <div class="tab-pane fade @(isFirst ? "show active" : "")"
-                             id="pills-@cat.CategoryElementId"
-                             role="tabpanel"
-                             aria-labelledby="pills-@cat.CategoryElementId-tab">
+                        <div class="tab-pane fade @(isFirst ? "show active" : "")" id="pills-@cat.CategoryElementId" role="tabpanel" aria-labelledby="pills-@cat.CategoryElementId-tab">
                             <div class="row">
                                 @foreach (var menu in Model.Where(m => m.CategoryElementId == cat.CategoryElementId && m.MenuStatus))
                                 {
                                     <div class="col-md-6 site-animate">
-                                        <div class="media menu-item">
-                                            <img class="mr-3 img-fluid" src="@menu.FoodImageUrl" alt="@menu.FoodTitle" />
-                                            <div class="media-body">
-                                                <h5 class="mt-0">@menu.FoodTitle</h5>
-                                                <p>@menu.FoodDescription</p>
-                                                <h6 class="text-primary menu-price">@menu.FoodPrice.ToString("C")</h6>
+                                        <div class="menu-card-clickable"
+                                             data-menuid="@menu.MenuId"
+                                             style="cursor: pointer;">
+                                            <div class="menu-card">
+                                                <img class="menu-card-img" src="@menu.FoodImageUrl" alt="@menu.FoodTitle" />
+                                                <div class="menu-card-body">
+                                                    <h5 class="menu-card-title">@menu.FoodTitle</h5>
+                                                    <p class="menu-card-text">@menu.FoodDescription</p>
+                                                </div>
+                                                <h6 class="menu-card-price">@menu.FoodPrice.ToString("C")</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -78,9 +66,22 @@
     </div>
 </section>
 
+<div class="modal fade" id="menuDetailModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h4 class="modal-title" id="modalTitle">Menü Detayları</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 pb-4">
+                <div id="modalBodyContent"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
-    /* Kategori sekmeleri için hover efekti */
-    /* Kategori sekmeleri için hover efekti */
+    /* Kategori sekmeleri için stiller (Mevcut stilleriniz) */
     .site-tab-nav .nav-link {
         transition: all 0.3s ease;
         border-radius: 30px;
@@ -90,22 +91,205 @@
     }
 
         .site-tab-nav .nav-link:hover {
-            background-color: #f1f5f9 !important; /* Açık gri arka plan */
-            color: #0d9488 !important; /* Tailwind teal-600 tonu */
+            background-color: #f1f5f9 !important;
+            color: #0d9488 !important;
             transform: scale(1.05);
         }
 
-        /* Aktif kategori sekmesi için */
         .site-tab-nav .nav-link.active {
             background-color: #0d9488 !important;
             color: #fff !important;
             box-shadow: 0 4px 10px rgba(13, 148, 136, 0.4);
         }
 
-        .site-tab-nav .nav-link:focus,
-        .site-tab-nav .nav-link:active {
-            outline: none !important;
-            background-color: #0d9488 !important;
-            color: #fff !important;
+    /* YENİ EKLENEN MENÜ KARTI STİLLERİ */
+
+    /* Linkin varsayılan stilini (mavi renk, alt çizgi) kaldırır */
+    .menu-card-link {
+        text-decoration: none;
+        color: inherit; /* Yazı rengini üst elementten al */
+    }
+
+        .menu-card-link:hover {
+            text-decoration: none;
+            color: inherit;
         }
+
+    /* Menü kartının temel görünümü */
+    .menu-card {
+        display: flex; /* İçerikleri (resim, metin, fiyat) yan yana hizalar */
+        align-items: center; /* Dikeyde ortalar */
+        background-color: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Yumuşak geçiş efekti */
+    }
+
+        /* Fare ile üzerine gelince kartın belirginleşmesi */
+        .menu-card:hover {
+            transform: translateY(-5px); /* Kartı hafifçe yukarı kaldırır */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Gölgeyi belirginleştirir */
+            border-color: #0d9488; /* Kenarlık rengini tema rengi yapar */
+        }
+
+    /* Kart içindeki elemanların stilleri */
+    .menu-card-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-right: 1.25rem;
+    }
+
+    .menu-card-body {
+        flex-grow: 1; /* Metin alanının kalan tüm boşluğu kaplamasını sağlar */
+    }
+
+    .menu-card-title {
+        margin-top: 0;
+        margin-bottom: 0.25rem;
+        font-size: 1.1rem;
+    }
+
+    .menu-card-text {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+    .menu-card-price {
+        font-size: 1.15rem;
+        font-weight: bold;
+        color: #0d9488; /* Tema rengiyle uyumlu */
+        margin-left: 1rem;
+    }
+
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const detailModalEl = document.getElementById('menuDetailModal');
+        if (!detailModalEl) return;
+
+        // create bootstrap modal instance when available
+        function getBootstrapModal() {
+            try { return new bootstrap.Modal(detailModalEl); } catch (e) { return null; }
+        }
+
+        const bsModal = getBootstrapModal();
+
+        function showImmediateContent(clickable) {
+            const title = clickable.querySelector('.menu-card-title')?.textContent || '';
+            const description = clickable.querySelector('.menu-card-text')?.textContent || '';
+            const price = clickable.querySelector('.menu-card-price')?.textContent || '';
+            const imageUrl = clickable.querySelector('.menu-card-img')?.src || '';
+
+            const immediateHtml = `
+                <div class="row">
+                    <div class="col-12 text-center mb-4">
+                        <img src="${imageUrl}" alt="${title}" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;" />
+                    </div>
+                    <div class="col-12 text-center mb-4">
+                        <h3>${title}</h3>
+                        <p class="text-muted">${description}</p>
+                        <h4 class="text-primary">${price}</h4>
+                    </div>
+                    <div class="col-12">
+                        <div id="menuDetails" class="mt-4 text-center">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Yükleniyor...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            detailModalEl.querySelector('.modal-body').innerHTML = immediateHtml;
+        }
+
+        async function loadDetails(menuId) {
+            const menuDetailsEl = detailModalEl.querySelector('#menuDetails');
+            if (!menuDetailsEl) return;
+            try {
+                const resp = await fetch(`/MenuDetail/GetMenuData?id=${encodeURIComponent(menuId)}`);
+                const text = await resp.text();
+                if (!resp.ok) {
+                    // show full response text for easier debugging
+                    menuDetailsEl.innerHTML = `<pre class="text-start small text-danger">API error ${resp.status}: ${text}</pre>`;
+                    return;
+                }
+                const data = JSON.parse(text);
+
+                const detailsHtml = `
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Hazırlanma Süresi</h5>
+                                    <p class="card-text">${data.preparationTime ? data.preparationTime + ' dakika' : 'Belirtilmemiş'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Kalori</h5>
+                                    <p class="card-text">${data.calories ? data.calories + ' kcal' : 'Belirtilmemiş'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Acı Durumu</h5>
+                                    <p class="card-text">${data.isSpicy ? '<span class="badge bg-danger">Acı</span>' : '<span class="badge bg-success">Acı Değil</span>'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Alerjen Bilgisi</h5>
+                                    <p class="card-text">${data.allergenInfo || 'Alerjen bilgisi yok.'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Ek Notlar</h5>
+                                    <p class="card-text">${data.additionalNotes || 'Ek not bulunmuyor.'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                menuDetailsEl.innerHTML = detailsHtml;
+            } catch (err) {
+                console.error(err);
+                menuDetailsEl.innerHTML = `<div class="alert alert-danger">Veri yüklenemedi: ${err.message}</div>`;
+            }
+        }
+
+        document.querySelectorAll('.menu-card-clickable').forEach(function (clickable) {
+            clickable.addEventListener('click', function (e) {
+                e.preventDefault();
+                showImmediateContent(clickable);
+                // show modal
+                if (bsModal) bsModal.show();
+                else if (typeof bootstrap !== 'undefined') {
+                    try { new bootstrap.Modal(detailModalEl).show(); } catch (_) {}
+                }
+                // then load details
+                const menuId = clickable.dataset.menuid;
+                loadDetails(menuId);
+            });
+        });
+    });
+</script>

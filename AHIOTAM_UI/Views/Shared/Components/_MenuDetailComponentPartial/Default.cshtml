@@ -1,0 +1,120 @@
+﻿@model List<ResultMenuWithCategoryDto>
+@{
+    bool isFirst = true;
+    var categories = Model.Where(m => m.MenuStatus == true)
+                         .GroupBy(x => new { x.CategoryElementId, x.CategoryName, x.CategoryStatus })
+                         .Select(g => new { g.Key.CategoryElementId, g.Key.CategoryName, g.Key.CategoryStatus })
+                         .ToList();
+}
+
+<section class="site-section" id="section-menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center mb-5 site-animate">
+                <h2 class="display-4">Menümüz</h2>
+                <div class="row justify-content-center">
+                    <div class="col-md-7">
+                        <p class="lead">Yöremize özgü en güzel menüler burada</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 text-center">
+                <ul class="nav site-tab-nav nav-pills mb-5" id="pills-tab" role="tablist">
+                    @foreach (var cat in categories.Where(c => c.CategoryStatus))
+                    {
+                        <li class="nav-item site-animate">
+                            <a class="nav-link @(isFirst ? "active" : "")" id="pills-@cat.CategoryElementId-tab" data-toggle="pill" href="#pills-@cat.CategoryElementId" role="tab" aria-controls="pills-@cat.CategoryElementId" aria-selected="@(isFirst ? "true" : "false")">
+                                @cat.CategoryName
+                            </a>
+                        </li>
+                        isFirst = false;
+                    }
+                </ul>
+                <div class="tab-content text-left" id="pills-tabContent">
+                    @{
+                        isFirst = true;
+                    }
+                    @foreach (var cat in categories.Where(c => c.CategoryStatus))
+                    {
+                        <div class="tab-pane fade @(isFirst ? "show active" : "")" id="pills-@cat.CategoryElementId" role="tabpanel" aria-labelledby="pills-@cat.CategoryElementId-tab">
+                            <div class="row">
+                                @foreach (var menu in Model.Where(m => m.CategoryElementId == cat.CategoryElementId && m.MenuStatus))
+                                {
+                                    <div class="col-md-6 site-animate">
+                                        <div class="menu-card-clickable"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#menuDetailModal"
+                                             data-menuid="@menu.MenuId"
+                                             style="cursor: pointer;">
+                                            <div class="menu-card">
+                                                <img class="menu-card-img" src="@menu.FoodImageUrl" alt="@menu.FoodTitle" />
+                                                <div class="menu-card-body">
+                                                    <h5 class="menu-card-title">@menu.FoodTitle</h5>
+                                                    <p class="menu-card-text">@menu.FoodDescription</p>
+                                                </div>
+                                                <h6 class="menu-card-price">@menu.FoodPrice.ToString("C")</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        isFirst = false;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@await Component.InvokeAsync("_MenuDetailInCardComponentPartial")
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const detailModal = document.getElementById('menuDetailModal');
+            if (detailModal) {
+                const modalTitle = document.getElementById('modalTitle');
+                const modalBody = document.getElementById('modalBodyContent');
+                const modalSpinner = document.getElementById('modalSpinner');
+
+                detailModal.addEventListener('show.bs.modal', function (event) {
+                    const cardLink = event.relatedTarget;
+                    const menuId = cardLink.getAttribute('data-menuid');
+                    const menuTitle = cardLink.querySelector('.menu-card-title').textContent;
+
+                    modalTitle.textContent = menuTitle + " Detayları";
+                    fetchMenuDetails(menuId);
+                });
+
+                async function fetchMenuDetails(menuId) {
+                    modalBody.style.display = 'none';
+                    modalSpinner.style.display = 'flex';
+
+                    try {
+                        const response = await fetch(`https://localhost:44390/api/MenuDetails/${menuId}`);
+                        if (!response.ok) throw new Error('API yanıtı başarılı değil.');
+                        const details = await response.json();
+                        renderMenuDetails(details);
+                    } catch (error) {
+                        console.error('Menü detayı alınırken hata:', error);
+                        modalBody.innerHTML = '<div class="alert alert-danger">Bu menü için detay bilgisi bulunamadı.</div>';
+                    } finally {
+                        modalSpinner.style.display = 'none';
+                        modalBody.style.display = 'block';
+                    }
+                }
+
+                function renderMenuDetails(details) {
+                    // Verileri modal'daki doğru yerlere yazdır
+                    document.getElementById('modalPreparationTime').textContent = details.preparationTime ? `${details.preparationTime} dakika` : "Belirtilmemiş";
+                    document.getElementById('modalCalories').textContent = details.calories ? `${details.calories} kcal` : "Belirtilmemiş";
+                    document.getElementById('modalIsSpicy').innerHTML = details.isSpicy ? '<span class="badge bg-danger">Acı</span>' : '<span class="badge bg-success">Acı Değil</span>';
+                    document.getElementById('modalAllergenInfo').textContent = details.allergenInfo || "Alerjen bilgisi yok.";
+                    document.getElementById('modalAdditionalNotes').textContent = details.additionalNotes || "Ek not bulunmuyor.";
+                }
+            }
+        });
+    </script>
+}

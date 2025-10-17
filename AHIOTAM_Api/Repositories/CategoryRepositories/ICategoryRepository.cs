@@ -10,5 +10,7 @@ namespace AHIOTAM_Api.Repositories.CategoryRepositories
         Task UpdateCategory(UpdateCategoryDto updateCategoryDto);
         Task DeleteCategory(int id);
         Task ToggleCategoryStatus(int id);
+        Task<List<CategoryWithUsersAndRolesDto>> GetCategoiesByUserId(int id);
+        Task<List<CategoryWithUsersAndRolesDto>> GetCategoiesUserRole();
     }
 }

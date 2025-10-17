@@ -105,5 +105,30 @@ namespace AHIOTAM_Api.Repositories.CategoryRepositories
                 await connection.ExecuteAsync(query, parameters);
             }
         }
+
+        public async Task<List<CategoryWithUsersAndRolesDto>> GetCategoiesByUserId(int id)
+        {
+            string query = @" SELECT Category.CategoryId, Category.CategoryName, Category.CategoryElementId, Category.CategoryCreatedId,Category.CategoryStatus, Category.CategoryCreatedAt, AppUser.UserId, AppUser.UserName, AppRole.RoleId, AppRole.RoleName FROM Category INNER JOIN AppUser ON Category.CategoryCreatedId = AppUser.UserId INNER JOIN AppRole ON AppUser.UserRole = AppRole.RoleId WHERE AppUser.UserId = @userId; ";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@userId", id); // "@userId" ya da "userId" fark etmez ama ikisini karıştırma
+
+            using (var connection = _context.CreateConnection())
+            {
+                // parametreyi mutlaka geçir
+                var values = await connection.QueryAsync<CategoryWithUsersAndRolesDto>(query, parameters);
+                return values.ToList();
+            }
+        }
+        public async Task<List<CategoryWithUsersAndRolesDto>> GetCategoiesUserRole()
+        {
+            string query = @"SELECT Category.CategoryId, Category.CategoryName, Category.CategoryElementId, Category.CategoryCreatedId,Category.CategoryStatus, Category.CategoryCreatedAt, AppUser.UserId, AppUser.UserName, AppRole.RoleId, AppRole.RoleName FROM Category INNER JOIN AppUser ON Category.CategoryCreatedId = AppUser.UserId INNER JOIN AppRole ON AppUser.UserRole = AppRole.RoleId; ";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = await connection.QueryAsync<CategoryWithUsersAndRolesDto>(query);
+                return values.ToList();
+            }
+        }
+
     }
 }
